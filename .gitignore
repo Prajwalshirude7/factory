@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Data (never push)
+data/raw/
+data/interim/
+data/processed/
+data/feature_store/
+
+# Models
+models/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment
+venv/
+.env

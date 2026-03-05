@@ -1,3 +1,5 @@
+import joblib
+from pathlib import Path
 from src.data.validate import (
     validate_raw_tables,
     validate_merged_dataset,
@@ -49,5 +51,13 @@ def run_training():
 
     # 7️⃣ Train main model
     model = train_xgb(X_train, y_train)
+
+
+    #shap
+    model_path = Path("models/model.pkl")
+
+    joblib.dump(model, model_path)
+
+    print(f"Model saved → {model_path}")
 
     return model, X_test, y_test

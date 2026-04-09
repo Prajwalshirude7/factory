@@ -22,22 +22,22 @@ def run_training():
     End-to-end Week-2 training pipeline
     """
 
-    # 1️⃣ Load Azure tables
+    # Load Azure tables
     telemetry, failures, errors, maint, machines = load_all_data()
     validate_raw_tables(telemetry, failures, errors, maint, machines)
-    # 2️⃣ Build modeling dataset
+    # Build modeling dataset
     df = build_model_dataset(
         telemetry, failures, errors, maint, machines
     )
     df = validate_merged_dataset(df)
-    # 3️⃣ Clean
+    # Clean
     df = clean_data(df)
 
-    # 4️⃣ Feature engineering
+    # Feature engineering
     df = build_features(df)
     validate_dataset(df)
     check_time_leakage(df)
-    # 5️⃣ Split X y
+    # Split X y
     train_df, test_df = time_split(df)
 
     X_train = train_df.drop(["failure", "datetime"], axis=1)
@@ -46,14 +46,14 @@ def run_training():
     X_test = test_df.drop(["failure", "datetime"], axis=1)
     y_test = test_df["failure"]
 
-    # 6️⃣ Handle imbalance
+    # Handle imbalance
     X_train, y_train = handle_imbalance(X_train, y_train)
 
-    # 7️⃣ Train main model
+    #  Train main model
     model = train_xgb(X_train, y_train)
 
 
-    #shap
+    # shap
     model_path = Path("models/model.pkl")
 
     joblib.dump(model, model_path)
